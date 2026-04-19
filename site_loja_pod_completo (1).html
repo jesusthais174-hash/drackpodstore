@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drack Pod Store</title>
+<style>
+body {margin:0;font-family:Arial;background:#0f0f0f;color:#fff}
+header {background:#111;padding:20px;text-align:center;font-size:28px;color:#ff6600}
+.container {padding:20px}
+.card {background:#1a1a1a;padding:15px;margin:10px;border-radius:10px;text-align:center}
+button {background:#ff6600;border:none;padding:10px 15px;color:#fff;border-radius:5px;cursor:pointer}
+.grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
+footer {text-align:center;padding:20px;background:#111;margin-top:20px}
+</style>
+</head>
+<body>
+<header>🔥 Drack Pod Store</header>
+
+<div class="container">
+<h2>💨 Pods (Descartáveis)</h2>
+<div class="grid">
+<div class="card">
+<h3>Pod Ice 1500 Puffs</h3>
+<p>Sabores variados</p>
+<p><b>R$ 45</b></p>
+<button onclick="comprar('Pod Ice 1500')">Comprar</button>
+</div>
+
+<div class="card">
+<h3>Pod Premium 3000 Puffs</h3>
+<p>Alta duração</p>
+<p><b>R$ 70</b></p>
+<button onclick="comprar('Pod Premium 3000')">Comprar</button>
+</div>
+
+<div class="card">
+<h3>Pod Mega 5000 Puffs</h3>
+<p>Mais vapor</p>
+<p><b>R$ 95</b></p>
+<button onclick="comprar('Pod Mega 5000')">Comprar</button>
+</div>
+</div>
+
+<h2>🎁 Combos</h2>
+<div class="grid">
+<div class="card">
+<h3>Combo Iniciante</h3>
+<p>2 Pods 1500</p>
+<p><b>R$ 80</b></p>
+<button onclick="comprar('Combo Iniciante')">Comprar</button>
+</div>
+
+<div class="card">
+<h3>Combo Médio</h3>
+<p>3 Pods variados</p>
+<p><b>R$ 120</b></p>
+<button onclick="comprar('Combo Médio')">Comprar</button>
+</div>
+
+<div class="card">
+<h3>Combo Premium</h3>
+<p>5 Pods + desconto</p>
+<p><b>R$ 180</b></p>
+<button onclick="comprar('Combo Premium')">Comprar</button>
+</div>
+</div>
+</div>
+
+<footer>
+📲 Pedidos via WhatsApp<br>
+<span id="zap"></span>
+</footer>
+
+<script>
+const numero = '5511999999999'; // MUDA AQUI
+
+document.getElementById('zap').innerText = numero;
+
+function comprar(produto){
+let msg = `Olá, quero comprar: ${produto}`;
+window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+</script>
+
+</body>
+</html>
