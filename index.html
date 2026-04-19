@@ -3,83 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Drack Pod Store</title>
+<title>Drack Pod Store PRO</title>
 <style>
 body {margin:0;font-family:Arial;background:#0f0f0f;color:#fff}
 header {background:#111;padding:20px;text-align:center;font-size:28px;color:#ff6600}
 .container {padding:20px}
-.card {background:#1a1a1a;padding:15px;margin:10px;border-radius:10px;text-align:center}
-button {background:#ff6600;border:none;padding:10px 15px;color:#fff;border-radius:5px;cursor:pointer}
+.card {background:#1a1a1a;padding:15px;border-radius:10px;text-align:center}
+button {background:#ff6600;border:none;padding:10px;color:#fff;border-radius:5px;cursor:pointer;margin:5px}
 .grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px}
 footer {text-align:center;padding:20px;background:#111;margin-top:20px}
+.cart {position:fixed;top:20px;right:20px;background:#222;padding:15px;border-radius:10px}
+.qr {margin-top:10px}
 </style>
 </head>
 <body>
-<header>🔥 Drack Pod Store</header>
+<header>🔥 Drack Pod Store PRO</header>
+
+<div class="cart">
+🛒 Carrinho: <span id="total">R$ 0</span><br>
+<button onclick="finalizar()">Finalizar Pedido</button>
+</div>
 
 <div class="container">
-<h2>💨 Pods (Descartáveis)</h2>
+<h2>💨 Produtos</h2>
 <div class="grid">
+
 <div class="card">
-<h3>Pod Ice 1500 Puffs</h3>
-<p>Sabores variados</p>
-<p><b>R$ 45</b></p>
-<button onclick="comprar('Pod Ice 1500')">Comprar</button>
+<h3>Pod Ice</h3>
+<p>R$ 45</p>
+<button onclick="add(45,'Pod Ice')">Adicionar</button>
 </div>
 
 <div class="card">
-<h3>Pod Premium 3000 Puffs</h3>
-<p>Alta duração</p>
-<p><b>R$ 70</b></p>
-<button onclick="comprar('Pod Premium 3000')">Comprar</button>
+<h3>Pod Premium</h3>
+<p>R$ 70</p>
+<button onclick="add(70,'Pod Premium')">Adicionar</button>
 </div>
 
 <div class="card">
-<h3>Pod Mega 5000 Puffs</h3>
-<p>Mais vapor</p>
-<p><b>R$ 95</b></p>
-<button onclick="comprar('Pod Mega 5000')">Comprar</button>
-</div>
+<h3>Pod Mega</h3>
+<p>R$ 95</p>
+<button onclick="add(95,'Pod Mega')">Adicionar</button>
 </div>
 
-<h2>🎁 Combos</h2>
-<div class="grid">
-<div class="card">
-<h3>Combo Iniciante</h3>
-<p>2 Pods 1500</p>
-<p><b>R$ 80</b></p>
-<button onclick="comprar('Combo Iniciante')">Comprar</button>
 </div>
 
+<h2>💰 Pagamento PIX</h2>
 <div class="card">
-<h3>Combo Médio</h3>
-<p>3 Pods variados</p>
-<p><b>R$ 120</b></p>
-<button onclick="comprar('Combo Médio')">Comprar</button>
-</div>
-
-<div class="card">
-<h3>Combo Premium</h3>
-<p>5 Pods + desconto</p>
-<p><b>R$ 180</b></p>
-<button onclick="comprar('Combo Premium')">Comprar</button>
+<p>Chave PIX: <b id="pixKey">SEU-PIX-AQUI</b></p>
+<button onclick="copiarPix()">Copiar PIX</button>
+<div class="qr">
+<img id="qrImg" width="150">
 </div>
 </div>
 </div>
 
 <footer>
-📲 Pedidos via WhatsApp<br>
-<span id="zap"></span>
+📲 WhatsApp: <span id="zap"></span>
 </footer>
 
 <script>
-const numero = '5511999999999'; // MUDA AQUI
+let total = 0;
+let carrinho = [];
+
+const numero = '5511999999999';
+const chavePix = 'SEU-PIX-AQUI';
 
 document.getElementById('zap').innerText = numero;
+document.getElementById('pixKey').innerText = chavePix;
 
-function comprar(produto){
-let msg = `Olá, quero comprar: ${produto}`;
-window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`,'_blank');
+// GERAR QR CODE AUTOMÁTICO
+const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${chavePix}`;
+document.getElementById('qrImg').src = qrUrl;
+
+function add(valor, nome){
+ total += valor;
+ carrinho.push(nome);
+ document.getElementById('total').innerText = 'R$ ' + total;
+}
+
+function finalizar(){
+ let lista = carrinho.join(', ');
+ let msg = `Pedido: ${lista} | Total: R$ ${total} | Pagamento via PIX`;
+ window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+function copiarPix(){
+ navigator.clipboard.writeText(chavePix);
+ alert('PIX copiado!');
 }
 </script>
 
