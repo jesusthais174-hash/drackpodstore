@@ -21,7 +21,6 @@ footer {text-align:center;padding:20px;background:#111;margin-top:20px}
 
 <div class="cart">
 🛒 Carrinho: <span id="total">R$ 0</span><br>
-<button onclick="finalizar()">Finalizar Pedido</button>
 </div>
 
 <div class="container">
@@ -48,50 +47,42 @@ footer {text-align:center;padding:20px;background:#111;margin-top:20px}
 
 </div>
 
-<h2>💰 Pagamento PIX</h2>
+<h2>💰 Pagamento PIX (Apenas QR Code)</h2>
 <div class="card">
-<p>Chave PIX: <b id="pixKey">SEU-PIX-AQUI</b></p>
-<button onclick="copiarPix()">Copiar PIX</button>
+<p>Escaneie o QR Code para pagar</p>
 <div class="qr">
-<img id="qrImg" width="150">
+<img id="qrImg" width="200">
 </div>
 </div>
 </div>
 
 <footer>
-📲 WhatsApp: <span id="zap"></span>
+💰 Pagamento somente via PIX
 </footer>
 
 <script>
 let total = 0;
 let carrinho = [];
 
-const numero = '5511999999999';
 const chavePix = 'SEU-PIX-AQUI';
 
-document.getElementById('zap').innerText = numero;
-document.getElementById('pixKey').innerText = chavePix;
-
 // GERAR QR CODE AUTOMÁTICO
-const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${chavePix}`;
-document.getElementById('qrImg').src = qrUrl;
+function gerarQR(){
+ let valor = total > 0 ? total : 1;
+ let dados = `${chavePix}|${valor}`;
+ let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${dados}`;
+ document.getElementById('qrImg').src = qrUrl;
+}
 
 function add(valor, nome){
  total += valor;
  carrinho.push(nome);
  document.getElementById('total').innerText = 'R$ ' + total;
+ gerarQR();
 }
 
-function finalizar(){
- let lista = carrinho.join(', ');
- let msg = `Pedido: ${lista} | Total: R$ ${total} | Pagamento via PIX`;
- window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`,'_blank');
-}
-
-function copiarPix(){
- navigator.clipboard.writeText(chavePix);
- alert('PIX copiado!');
-}
+// gerar QR inicial
+window.onload = gerarQR;
 </script>
 
 </body>
